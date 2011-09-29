@@ -1,0 +1,67 @@
+<?php
+/**
+ * @file ombuwire.module
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function ombuwire_theme($existing, $type, $theme, $path) {
+  return array(
+    'dashboard_page' => array(
+      'variables' => array('blocks' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ombuwire_block_info() {
+  foreach(_ombuwire_blocks_needed() as $size) {
+    $delta = sprintf('fpo_%d_%d', $size[0], $size[1]);
+    $info = sprintf('FPO %dx%s', $size[0], $size[1]);
+    $blocks[$delta]['info'] = $info;
+    $blocks[$delta]['cache'] = DRUPAL_NO_CACHE;
+    return $blocks;
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ombuwire_block_view($delta = '') {
+  if(preg_match('/^fpo_(\d+)_(\d+)$/', $delta, $matches)) {
+    $block['subject'] = t('FPO');
+    $block['content'] = _ombuwire_get_fpo_block($matches[1], $matches[2]);
+    return $block;
+  }
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function ombuwire_preprocess_block(&$variables) {
+  if($variables['block']->module == 'ombuwire' && strpos($variables['block']->delta,'fpo_') === 0) {
+    $variables['classes_array'][] = 'block-ombuwire-fpo';
+  }
+}
+
+/**
+ *  Module functions
+ */
+
+function _ombuwire_get_fpo_block($width = 100, $height = 100)  {
+  return sprintf("<div class='fpo' style='width: %dpx; height: %dpx'></div>",
+    $width, $height);
+}
+
+/**
+ * @todo Should be a site variable or hook
+ */
+function _ombuwire_blocks_needed() {
+  return array(
+    array(250,250),
+    array(500,500),
+  );
+}
