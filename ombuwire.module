@@ -65,3 +65,19 @@ function _ombuwire_blocks_needed() {
     array(500,500),
   );
 }
+
+/**
+ * Return the sitemap array
+ */
+function ombuwire_get_sitemap() {
+  $profile = variable_get('install_profile', 'ombuprofile');
+  if (!module_load_include('inc', $profile, 'sitemap.ombuwire')) {
+    $message = "No 'sitemap.ombuwire.inc' file found in the the '$profile' install profile. ";
+    $message .= "An example file can be found at '". drupal_get_path('module', 'ombuwire');
+    $message .= "/sitemap.ombuwire.sample.inc'.";
+    drupal_set_message($message, 'warning');
+    return array();
+  }
+  $sitemap = _ombuwire_sitemap();
+  return $sitemap;
+}

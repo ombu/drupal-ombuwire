@@ -1,7 +1,7 @@
 name = "ombuwire"
-description = "Provides FPO blocks"
+description = "Provides site wire-framing and FPO blocks"
 package = 'OMBU'
 core = 7.x
 php = 5.1
 
-stylesheets[all][] = css/ombuwire.css 
+stylesheets[all][] = css/ombuwire.css
