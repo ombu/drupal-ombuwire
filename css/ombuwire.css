@@ -4,15 +4,15 @@
 .block-ombuwire-fpo .fpo {
   background-color: #b3b3b3;
 }
-.ombuwire-center {
-  display: block;
-  margin: 0 auto;
-}
-.ombuwire-iframe {
+body.ombuwire .ombuwire-iframe {
   border: 0;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+}
+body.ombuwire .ombuwire-center {
+  display: block;
+  margin: 0 auto;
 }
