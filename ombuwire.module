@@ -4,6 +4,13 @@
  */
 
 /**
+ * STATE Definitions
+ */
+define('OMBUWIRE_NOT_STARTED', 0);
+define('OMBUWIRE_IN_PROGRESS', 1);
+define('OMBUWIRE_FINISHED', 2);
+
+/**
  * Implements hook_theme().
  */
 function ombuwire_theme($existing, $type, $theme, $path) {
@@ -48,6 +55,13 @@ function ombuwire_preprocess_block(&$variables) {
 }
 
 /**
+ * Implements hook_page_delivery_callback_alter()
+ */
+function ombuwire_page_delivery_callback_alter(&$delivery_callback) {
+  $delivery_callback = 'ombuwire_delivery_callback';
+}
+
+/**
  *  Module functions
  */
 
@@ -81,3 +95,48 @@ function ombuwire_get_sitemap() {
   $sitemap = _ombuwire_sitemap();
   return $sitemap;
 }
+
+/**
+ * Returns the flat sitemap, keyed by path.  Function used recursively.
+ */
+function ombuwire_get_sitemap_flat($map = NULL) {
+  $map = ($map === NULL) ? ombuwire_get_sitemap() : $map;
+  $paths = array();
+  foreach ($map as $path => $array) {
+    $children = array();
+    if (!empty($array['#children'])) {
+      $children = ombuwire_get_sitemap_flat($array['#children']);
+      unset($array['#children']);
+    }
+    $paths[$path] = $array;
+    $paths = array_merge($paths, $children);
+  }
+  return $paths;
+}
+
+/**
+ * ombuwire implementation of the delivery_callback
+ */
+function ombuwire_delivery_callback($page_callback_result) {
+
+  // get the original $delivery_callback
+  $router_item = menu_get_item();
+  $delivery_callback = !empty($router_item['delivery_callback']) ? $router_item['delivery_callback'] : 'drupal_deliver_html_page';
+
+  if ($page_callback_result === MENU_NOT_FOUND) {
+
+    $requested_path = drupal_get_path_alias(current_path());
+    $sitemap_paths = ombuwire_get_sitemap_flat();
+
+    // Is a sitemap path
+    if (in_array($requested_path, array_keys($sitemap_paths))) {
+
+      $page_callback_result = $sitemap_paths[$requested_path]['#title'];
+
+    }
+
+  }
+
+  $delivery_callback($page_callback_result);
+}
+
