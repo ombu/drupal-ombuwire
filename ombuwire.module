@@ -20,11 +20,11 @@ function ombuwire_theme($existing, $type, $theme, $path) {
 function ombuwire_block_info() {
   foreach(_ombuwire_blocks_needed() as $size) {
     $delta = sprintf('fpo_%d_%d', $size[0], $size[1]);
-    $info = sprintf('FPO %dx%s', $size[0], $size[1]);
+    $info = sprintf('FPO %dx%d', $size[0], $size[1]);
     $blocks[$delta]['info'] = $info;
     $blocks[$delta]['cache'] = DRUPAL_NO_CACHE;
-    return $blocks;
   }
+  return $blocks;
 }
 
 /**
