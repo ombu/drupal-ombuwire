@@ -102,11 +102,11 @@ body.ombuwire.ombuwire-root {
   transition: height 0.2s ease-in;
 }
 #ombuwire-sidebar .ombuwire-menu ul > li > .displays a.active {
-  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+  background: #000;
 }
 #ombuwire-sidebar .ombuwire-menu ul > li:hover > .displays, #ombuwire-sidebar .ombuwire-menu ul > li.active > .displays {
   height: 2em;
 }
 #ombuwire-sidebar .ombuwire-menu ul > li.active > .root {
-  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+  background: #000;
 }
