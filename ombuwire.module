@@ -204,7 +204,17 @@ function ombuwire_delivery_callback($page_callback_result) {
       $display = 'root';
       $root_path = $requested_path;
       $sitemap_item = $sitemap_flat[$requested_path];
-      drupal_set_message("<p><em>This page has not yet been implemented.</em></p>", 'warning');
+      $display_links = array();
+      foreach ($sitemap_item as $key => $val) {
+        if (stristr($key, '#') === FALSE) {
+          $display_links[] = l(ucwords($key), $root_path.'/'.$key);
+        }
+      }
+      $message = "This page has not yet been implemented.";
+      if (!empty($display_links)) {
+        $message .= " View the ". ombuwire_format_comma_list($display_links) .' instead.';
+      }
+      drupal_set_message($message, 'warning');
     }
     else {
       // Display is 'root' and Drupal callback exists
@@ -244,4 +254,12 @@ function ombuwire_active_root_path($path = FALSE) {
   }
 
   return $internal;
+}
+
+function ombuwire_format_comma_list($items, $final_glue = 'or') {
+  $last = array_pop($items);
+  if (count($items) == 0) {
+    return $last;
+  }
+  return implode(', ', $items) ." $final_glue $last";
 }
