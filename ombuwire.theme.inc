@@ -17,5 +17,32 @@ function theme_ombuwire_page_static($vars) {
 }
 
 function theme_ombuwire_sidebar($vars) {
-	return "<div id='ombuwire-sidebar'>SIDEBAR</div>";
+  $tree = ombuwire_get_sitemap();
+  $menu = _ombuwire_sidebar_menu($tree);
+	return '<div id="ombuwire-sidebar">'. $menu .'</div>';
+}
+
+function _ombuwire_sidebar_menu($tree) {
+  $items = array();
+  foreach ($tree as $url => $arr) {
+
+    // Main link
+    $item = l($arr['#title'], $url);
+
+    // wireframe, design, static links
+    foreach ($arr as $key => $val) {
+      if (stristr($key, '#') === FALSE) {
+        $item .= ', '. l(ucwords($key), $url.'/'.$key);
+      }
+    }
+
+    // children
+    if (!empty($arr['#children'])) {
+      $item .= _ombuwire_sidebar_menu($arr['#children']);
+    }
+
+    $items[] = '<li class="'.$arr['#status'].'">'. $item .'</li>';
+  }
+
+  return '<ul>'. implode($items) .'</ul>';
 }

@@ -6,12 +6,12 @@
 /**
  * STATE Definitions
  */
-define('OMBUWIRE_NOT_STARTED', 0);
-define('OMBUWIRE_WIREFRAME', 1);
-define('OMBUWIRE_DESIGN', 2);
-define('OMBUWIRE_STATIC', 3);
-define('OMBUWIRE_IN_PROGRESS', 4);
-define('OMBUWIRE_IMPLEMENTED', 4);
+define('OMBUWIRE_NOT_STARTED', 'not-started');
+define('OMBUWIRE_WIREFRAME', 'wireframe');
+define('OMBUWIRE_DESIGN', 'design');
+define('OMBUWIRE_STATIC', 'static');
+define('OMBUWIRE_IN_PROGRESS', 'in-progress');
+define('OMBUWIRE_IMPLEMENTED', 'implemented');
 
 /**
  * Implements hook_theme().
