@@ -4,14 +4,48 @@
  */
 
 /**
+ * STATE Definitions
+ */
+define('OMBUWIRE_NOT_STARTED', 'not-started');
+define('OMBUWIRE_WIREFRAME', 'wireframe');
+define('OMBUWIRE_DESIGN', 'design');
+define('OMBUWIRE_STATIC', 'static');
+define('OMBUWIRE_IN_PROGRESS', 'in-progress');
+define('OMBUWIRE_IMPLEMENTED', 'implemented');
+
+/**
  * Implements hook_theme().
  */
 function ombuwire_theme($existing, $type, $theme, $path) {
   return array(
-    'dashboard_page' => array(
-      'variables' => array('blocks' => NULL),
+    'ombuwire_page_wireframe' => array(
+      'variables' => array('url' => NULL),
+      'file' => 'ombuwire.theme.inc',
+    ),
+    'ombuwire_page_design' => array(
+      'variables' => array('url' => NULL),
+      'file' => 'ombuwire.theme.inc',
+    ),
+    'ombuwire_page_image' => array(
+      'variables' => array('url' => NULL),
+      'file' => 'ombuwire.theme.inc',
+    ),
+    'ombuwire_page_static' => array(
+      'variables' => array('url' => NULL),
+      'file' => 'ombuwire.theme.inc',
+    ),
+    'ombuwire_sidebar' => array(
+      'variables' => array(),
+      'file' => 'ombuwire.theme.inc',
     ),
   );
+}
+
+function ombuwire_theme_registry_alter(&$theme_registry) {
+  $theme_registry['html__ombuwire'] = $theme_registry['html'];
+  $theme_registry['html__ombuwire']['path'] = drupal_get_path('module', 'ombuwire') .'/templates';
+  $theme_registry['page__ombuwire'] = $theme_registry['page'];
+  $theme_registry['page__ombuwire']['path'] = drupal_get_path('module', 'ombuwire') .'/templates';
 }
 
 /**
@@ -48,6 +82,46 @@ function ombuwire_preprocess_block(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_html()
+ */
+function ombuwire_preprocess_html(&$variables) {
+  if (array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
+    $obj = $variables['page']['content']['system_main']['#ombuwire'];
+    $variables['classes_array'][] = 'ombuwire';
+    if (isset($obj['#display'])) {
+      $variables['classes_array'][] = 'ombuwire-'. $obj['#display'];
+      if ($obj['#display'] != 'root') {
+        $variables['theme_hook_suggestions'][] = 'html__ombuwire';
+        $module_path = base_path() . drupal_get_path('module', 'ombuwire');
+        $variables['styles'] = '<link rel="stylesheet" type="text/css" href="$module_path/css/ombuwire.css" />';
+        unset($variables['page']['page_top']['#theme_wrappers']);
+        unset($variables['page']['page_bottom']['#theme_wrappers']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_page()
+ */
+function ombuwire_preprocess_page(&$variables) {
+  if (array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
+    $obj = $variables['page']['content']['system_main']['#ombuwire'];
+    if (isset($obj['#display']) && $obj['#display'] != 'root') {
+      $variables['theme_hook_suggestions'][] = 'page__ombuwire';
+    }
+  }
+  $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
+}
+
+/**
+ * Implements hook_page_delivery_callback_alter()
+ */
+function ombuwire_page_delivery_callback_alter(&$delivery_callback) {
+  $delivery_callback = 'ombuwire_delivery_callback';
+}
+
+/**
  *  Module functions
  */
 
@@ -70,14 +144,119 @@ function _ombuwire_blocks_needed() {
  * Return the sitemap array
  */
 function ombuwire_get_sitemap() {
-  $profile = variable_get('install_profile', 'ombuprofile');
-  if (!module_load_include('inc', $profile, 'sitemap.ombuwire')) {
-    $message = "No 'sitemap.ombuwire.inc' file found in the the '$profile' install profile. ";
-    $message .= "An example file can be found at '". drupal_get_path('module', 'ombuwire');
-    $message .= "/sitemap.ombuwire.sample.inc'.";
+  $sitemap = module_invoke_all('ombuwire_sitemap');
+  if (empty($sitemap)) {
+    $message = "No ombuwire sitemap found. ";
+    $message .= "An example of the `hook_ombuwire_sitemap()` function can be found at '". drupal_get_path('module', 'ombuwire');
+    $message .= "/ombuwire.api.php'.";
     drupal_set_message($message, 'warning');
-    return array();
   }
-  $sitemap = _ombuwire_sitemap();
   return $sitemap;
+}
+
+/**
+ * Returns the flat sitemap, keyed by path.  Function used recursively.
+ */
+function ombuwire_get_sitemap_flat($map = NULL) {
+  $map = ($map === NULL) ? ombuwire_get_sitemap() : $map;
+  $paths = array();
+  foreach ($map as $path => $array) {
+    $children = array();
+    if (!empty($array['#children'])) {
+      $children = ombuwire_get_sitemap_flat($array['#children']);
+      unset($array['#children']);
+    }
+    $paths[$path] = $array;
+    $paths = array_merge($paths, $children);
+  }
+  return $paths;
+}
+
+/**
+ * ombuwire implementation of the delivery_callback
+ */
+function ombuwire_delivery_callback($page_callback_result) {
+
+  // get the original $delivery_callback
+  $router_item = menu_get_item();
+  $delivery_callback = !empty($router_item['delivery_callback']) ? $router_item['delivery_callback'] : 'drupal_deliver_html_page';
+  $requested_path = drupal_get_path_alias(current_path());
+  $sitemap_flat = ombuwire_get_sitemap_flat();
+
+  if ($page_callback_result === MENU_NOT_FOUND || array_key_exists($requested_path, $sitemap_flat)) {
+
+    $sitemap_item = FALSE;
+    $display = FALSE;
+    $root_path = FALSE;
+
+    if ($page_callback_result === MENU_NOT_FOUND && !array_key_exists($requested_path, $sitemap_flat)) {
+      $path_parts = explode('/', $requested_path);
+      $root_path = implode('/', array_slice($path_parts, 0, -1));
+      $display = end($path_parts);
+      if (isset($sitemap_flat[$root_path])) {
+        $sitemap_item = $sitemap_flat[$root_path];
+      }
+    }
+    elseif (array_key_exists($requested_path, $sitemap_flat)) {
+      // Display is 'root' and Drupal callback doesn't exist
+      $display = 'root';
+      $root_path = $requested_path;
+      $sitemap_item = $sitemap_flat[$requested_path];
+
+      if ($page_callback_result === MENU_NOT_FOUND) {
+        $display_links = array();
+        foreach ($sitemap_item as $key => $val) {
+          if (stristr($key, '#') === FALSE) {
+            $display_links[] = l(ucwords($key), $root_path.'/'.$key);
+          }
+        }
+        $message = "This page has not yet been implemented.";
+        if (!empty($display_links)) {
+          $message .= " View the ". ombuwire_format_comma_list($display_links) .' instead.';
+        }
+        drupal_set_message($message, 'warning');
+      }
+    }
+
+    if ($root_path) {
+      ombuwire_active_root_path($root_path);
+    }
+
+    if ($sitemap_item) {
+      if (!is_array($page_callback_result)) {
+        $page_callback_result = array();
+      }
+      if (in_array($display, array_keys($sitemap_item))) {
+        // The display version has a key in the array. Ex: 'wireframe', 'design', etc.
+        // Otherwise it's the actual implementation
+        $page_callback_result = array(
+          '#theme' => 'ombuwire_page_'. $display,
+          '#url' => $sitemap_item[$display],
+        );
+      }
+      $page_callback_result['#ombuwire'] = array(
+        '#display' => $display,
+      );
+    }
+  }
+
+  $delivery_callback($page_callback_result);
+}
+
+function ombuwire_active_root_path($path = FALSE) {
+  static $internal = NULL;
+
+  if ($path != FALSE) {
+    $internal = $path;
+  }
+
+  return $internal;
+}
+
+function ombuwire_format_comma_list($items, $final_glue = 'or') {
+  $last = array_pop($items);
+  if (count($items) == 0) {
+    return $last;
+  }
+  return implode(', ', $items) ." $final_glue $last";
 }
