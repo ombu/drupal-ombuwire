@@ -30,11 +30,13 @@ function _ombuwire_sidebar_menu($tree) {
     $item = l($arr['#title'], $url);
 
     // wireframe, design, static links
+    $variations = array();
     foreach ($arr as $key => $val) {
       if (stristr($key, '#') === FALSE) {
-        $item .= ', '. l(ucwords($key), $url.'/'.$key);
+        $variations[] = l(ucwords($key), $url.'/'.$key);
       }
     }
+    $item .= '<div class="small">'. implode(' - ', $variations) .'</div>';
 
     // children
     if (!empty($arr['#children'])) {
