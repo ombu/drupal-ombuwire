@@ -24,81 +24,82 @@ body.ombuwire {
     margin: 0 auto;
   }
 
-  #ombuwire-sidebar {
-    position: absolute;
-    top: 2em;
-    left: 0;
-    padding: 1em;
-    z-index: 100;
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-left: 0;
-    color: #ffffff;
-    font-size: 13px;
-    font-family: Arial,Helmet,Freesans,sans-serif;
+  &.ombuwire-root {
+    top: 30px;
+  }
+}
+
+#ombuwire-sidebar {
+  position: absolute;
+  top: 2em;
+  left: 0;
+  padding: 1em;
+  z-index: 100;
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-left: 0;
+  color: #ffffff;
+  font-size: 13px;
+  font-family: Arial,Helmet,Freesans,sans-serif;
+
+  a {
+    color: #FFFFFF;
+  }
+
+  .displays {
+    font-size: 10px;
 
     a {
-      color: #FFFFFF;
-    }
-
-    .displays {
-      font-size: 10px;
-
-      a {
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-
-    ul {
-      list-style: none;
-      margin: 0;
-
-      ul {
-        margin-left: 1em;
-      }
-
-      > li {
-
-        padding-left: 20px;
-        margin: 2px 0;
-        background: url(img/issues.png) no-repeat 0 1px transparent;
-        &.in-progress { background-image: url(img/working-on.png); }
-        &.implemented { background-image: url(img/done.png); }
-
-        > .root {
-          padding: 1px 3px;
-        }
-
-        > .displays {
-          line-height: 2em;
-          height: 0px;
-          overflow: hidden;
-          -webkit-transition: height 0.2s ease-in;
-          -moz-transition: height 0.2s ease-in;
-          -o-transition: height 0.2s ease-in;
-          transition: height 0.2s ease-in;
-
-          a.active {
-            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-          }
-        }
-
-        &:hover,
-        &.active {
-          > .displays {
-            height: 2em;
-          }
-        }
-        &.active > .root {
-          background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-        }
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
-  &.ombuwire-root {
-    top: 30px;
+
+  ul {
+    list-style: none;
+    margin: 0;
+
+    ul {
+      margin-left: 1em;
+    }
+
+    > li {
+
+      padding-left: 20px;
+      margin: 2px 0;
+      background: url(img/issues.png) no-repeat 0 1px transparent;
+      &.in-progress { background-image: url(img/working-on.png); }
+      &.implemented { background-image: url(img/done.png); }
+
+      > .root {
+        padding: 1px 3px;
+      }
+
+      > .displays {
+        line-height: 2em;
+        height: 0px;
+        overflow: hidden;
+        -webkit-transition: height 0.2s ease-in;
+        -moz-transition: height 0.2s ease-in;
+        -o-transition: height 0.2s ease-in;
+        transition: height 0.2s ease-in;
+
+        a.active {
+          background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+        }
+      }
+
+      &:hover,
+      &.active {
+        > .displays {
+          height: 2em;
+        }
+      }
+      &.active > .root {
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+      }
+    }
   }
 }

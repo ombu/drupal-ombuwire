@@ -88,13 +88,15 @@ function ombuwire_preprocess_html(&$variables) {
   if (array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
     $obj = $variables['page']['content']['system_main']['#ombuwire'];
     $variables['classes_array'][] = 'ombuwire';
-    $variables['classes_array'][] = 'ombuwire-'. $obj['#display'];
-    if ($obj['#display'] != 'root') {
-      $variables['theme_hook_suggestions'][] = 'html__ombuwire';
-      $module_path = base_path() . drupal_get_path('module', 'ombuwire');
-      $variables['styles'] = '<link rel="stylesheet" type="text/css" href="$module_path/css/ombuwire.css" />';
-      unset($variables['page']['page_top']['#theme_wrappers']);
-      unset($variables['page']['page_bottom']['#theme_wrappers']);
+    if (isset($obj['#display'])) {
+      $variables['classes_array'][] = 'ombuwire-'. $obj['#display'];
+      if ($obj['#display'] != 'root') {
+        $variables['theme_hook_suggestions'][] = 'html__ombuwire';
+        $module_path = base_path() . drupal_get_path('module', 'ombuwire');
+        $variables['styles'] = '<link rel="stylesheet" type="text/css" href="$module_path/css/ombuwire.css" />';
+        unset($variables['page']['page_top']['#theme_wrappers']);
+        unset($variables['page']['page_bottom']['#theme_wrappers']);
+      }
     }
   }
 }
@@ -105,13 +107,11 @@ function ombuwire_preprocess_html(&$variables) {
 function ombuwire_preprocess_page(&$variables) {
   if (array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
     $obj = $variables['page']['content']['system_main']['#ombuwire'];
-    if ($obj['#display'] != 'root') {
+    if (isset($obj['#display']) && $obj['#display'] != 'root') {
       $variables['theme_hook_suggestions'][] = 'page__ombuwire';
     }
-
-    // @todo insert sidebar menu here
-    $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
   }
+  $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
 }
 
 /**
@@ -197,28 +197,25 @@ function ombuwire_delivery_callback($page_callback_result) {
         $sitemap_item = $sitemap_flat[$root_path];
       }
     }
-    elseif ($page_callback_result === MENU_NOT_FOUND && array_key_exists($requested_path, $sitemap_flat)) {
+    elseif (array_key_exists($requested_path, $sitemap_flat)) {
       // Display is 'root' and Drupal callback doesn't exist
       $display = 'root';
       $root_path = $requested_path;
       $sitemap_item = $sitemap_flat[$requested_path];
-      $display_links = array();
-      foreach ($sitemap_item as $key => $val) {
-        if (stristr($key, '#') === FALSE) {
-          $display_links[] = l(ucwords($key), $root_path.'/'.$key);
+
+      if ($page_callback_result === MENU_NOT_FOUND) {
+        $display_links = array();
+        foreach ($sitemap_item as $key => $val) {
+          if (stristr($key, '#') === FALSE) {
+            $display_links[] = l(ucwords($key), $root_path.'/'.$key);
+          }
         }
+        $message = "This page has not yet been implemented.";
+        if (!empty($display_links)) {
+          $message .= " View the ". ombuwire_format_comma_list($display_links) .' instead.';
+        }
+        drupal_set_message($message, 'warning');
       }
-      $message = "This page has not yet been implemented.";
-      if (!empty($display_links)) {
-        $message .= " View the ". ombuwire_format_comma_list($display_links) .' instead.';
-      }
-      drupal_set_message($message, 'warning');
-    }
-    else {
-      // Display is 'root' and Drupal callback exists
-      $display = 'root';
-      $root_path = $requested_path;
-      $sitemap_item = $sitemap_flat[$requested_path];
     }
 
     if ($root_path) {
@@ -226,7 +223,9 @@ function ombuwire_delivery_callback($page_callback_result) {
     }
 
     if ($sitemap_item) {
-      $page_callback_result = array();
+      if (!is_array($page_callback_result)) {
+        $page_callback_result = array();
+      }
       if (in_array($display, array_keys($sitemap_item))) {
         // The display version has a key in the array. Ex: 'wireframe', 'design', etc.
         // Otherwise it's the actual implementation
