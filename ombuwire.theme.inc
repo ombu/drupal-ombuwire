@@ -24,7 +24,16 @@ function theme_ombuwire_page_static($vars) {
 function theme_ombuwire_sidebar($vars) {
   $tree = ombuwire_get_sitemap();
   $menu = _ombuwire_sidebar_menu($tree);
-	return '<div id="ombuwire-sidebar">'. $menu .'</div>';
+	return <<<HEREDOC
+<div id="ombuwire-sidebar">
+  <a href="#" class="opener" title="Wireframe/Design Menu">&equiv;</a>
+  <div class="cloak">
+    <div class="ombuwire-menu">
+      $menu
+    </div>
+  </div>
+</div>
+HEREDOC;
 }
 
 function _ombuwire_sidebar_menu($tree) {

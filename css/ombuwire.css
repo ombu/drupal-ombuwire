@@ -27,49 +27,72 @@ body.ombuwire.ombuwire-root {
   position: absolute;
   top: 2em;
   left: 0;
-  padding: 1em;
   z-index: 100;
-  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-left: 0;
   color: #ffffff;
   font-size: 13px;
   font-family: Arial, Helmet, Freesans, sans-serif;
 }
+#ombuwire-sidebar:hover .opener {
+  display: none;
+}
+#ombuwire-sidebar:hover .cloak {
+  display: block;
+  width: auto;
+}
+#ombuwire-sidebar .cloak {
+  overflow: hidden;
+  width: 0;
+}
+#ombuwire-sidebar .opener {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: -23px;
+  width: 23px;
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+  font-size: 20px;
+  text-align: center;
+}
 #ombuwire-sidebar a {
   color: #FFFFFF;
 }
-#ombuwire-sidebar .displays {
+#ombuwire-sidebar .ombuwire-menu {
+  padding: 1em;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-left: 0;
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+}
+#ombuwire-sidebar .ombuwire-menu .displays {
   font-size: 10px;
 }
-#ombuwire-sidebar .displays a {
+#ombuwire-sidebar .ombuwire-menu .displays a {
   text-decoration: none;
 }
-#ombuwire-sidebar .displays a:hover {
+#ombuwire-sidebar .ombuwire-menu .displays a:hover {
   text-decoration: underline;
 }
-#ombuwire-sidebar ul {
+#ombuwire-sidebar .ombuwire-menu ul {
   list-style: none;
   margin: 0;
 }
-#ombuwire-sidebar ul ul {
+#ombuwire-sidebar .ombuwire-menu ul ul {
   margin-left: 1em;
 }
-#ombuwire-sidebar ul > li {
+#ombuwire-sidebar .ombuwire-menu ul > li {
   padding-left: 20px;
   margin: 2px 0;
   background: url(img/issues.png) no-repeat 0 1px transparent;
 }
-#ombuwire-sidebar ul > li.in-progress {
+#ombuwire-sidebar .ombuwire-menu ul > li.in-progress {
   background-image: url(img/working-on.png);
 }
-#ombuwire-sidebar ul > li.implemented {
+#ombuwire-sidebar .ombuwire-menu ul > li.implemented {
   background-image: url(img/done.png);
 }
-#ombuwire-sidebar ul > li > .root {
+#ombuwire-sidebar .ombuwire-menu ul > li > .root {
   padding: 1px 3px;
 }
-#ombuwire-sidebar ul > li > .displays {
+#ombuwire-sidebar .ombuwire-menu ul > li > .displays {
   line-height: 2em;
   height: 0px;
   overflow: hidden;
@@ -78,12 +101,12 @@ body.ombuwire.ombuwire-root {
   -o-transition: height 0.2s ease-in;
   transition: height 0.2s ease-in;
 }
-#ombuwire-sidebar ul > li > .displays a.active {
+#ombuwire-sidebar .ombuwire-menu ul > li > .displays a.active {
   background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
 }
-#ombuwire-sidebar ul > li:hover > .displays, #ombuwire-sidebar ul > li.active > .displays {
+#ombuwire-sidebar .ombuwire-menu ul > li:hover > .displays, #ombuwire-sidebar .ombuwire-menu ul > li.active > .displays {
   height: 2em;
 }
-#ombuwire-sidebar ul > li.active > .root {
+#ombuwire-sidebar .ombuwire-menu ul > li.active > .root {
   background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
 }
