@@ -9,7 +9,12 @@ function theme_ombuwire_page_design($vars) {
 }
 
 function theme_ombuwire_page_image($vars) {
-	return "<img class='ombuwire-center' src='{$vars['url']}' />";
+  $urls = is_array($vars['url']) ? $vars['url'] : array($vars['url']);
+  $out = '';
+  foreach ($urls as $url) {
+    $out .= "<img class='ombuwire-center' src='$url' />";
+  }
+	return $out;
 }
 
 function theme_ombuwire_page_static($vars) {
