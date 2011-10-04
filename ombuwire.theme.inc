@@ -15,3 +15,7 @@ function theme_ombuwire_page_image($vars) {
 function theme_ombuwire_page_static($vars) {
 	return "<iframe class='ombuwire-iframe' src='{$vars['url']}'></iframe>";
 }
+
+function theme_ombuwire_sidebar($vars) {
+	return "<div id='ombuwire-sidebar'>SIDEBAR</div>";
+}

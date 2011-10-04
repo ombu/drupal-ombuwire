@@ -34,12 +34,18 @@ function ombuwire_theme($existing, $type, $theme, $path) {
       'variables' => array('url' => NULL),
       'file' => 'ombuwire.theme.inc',
     ),
+    'ombuwire_sidebar' => array(
+      'variables' => array(),
+      'file' => 'ombuwire.theme.inc',
+    ),
   );
 }
 
 function ombuwire_theme_registry_alter(&$theme_registry) {
   $theme_registry['html__ombuwire'] = $theme_registry['html'];
   $theme_registry['html__ombuwire']['path'] = drupal_get_path('module', 'ombuwire') .'/templates';
+  $theme_registry['page__ombuwire'] = $theme_registry['page'];
+  $theme_registry['page__ombuwire']['path'] = drupal_get_path('module', 'ombuwire') .'/templates';
 }
 
 /**
@@ -85,7 +91,26 @@ function ombuwire_preprocess_html(&$variables) {
     $variables['classes_array'][] = 'ombuwire-'. $obj['#display'];
     if ($obj['#display'] != 'root') {
       $variables['theme_hook_suggestions'][] = 'html__ombuwire';
+      $module_path = base_path() . drupal_get_path('module', 'ombuwire');
+      $variables['styles'] = '<link rel="stylesheet" type="text/css" href="$module_path/css/ombuwire.css" />';
+      unset($variables['page']['page_top']['#theme_wrappers']);
+      unset($variables['page']['page_bottom']['#theme_wrappers']);
     }
+  }
+}
+
+/**
+ * Implements hook_preprocess_page()
+ */
+function ombuwire_preprocess_page(&$variables) {
+  if (array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
+    $obj = $variables['page']['content']['system_main']['#ombuwire'];
+    if ($obj['#display'] != 'root') {
+      $variables['theme_hook_suggestions'][] = 'page__ombuwire';
+    }
+
+    // @todo insert sidebar menu here
+    $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
   }
 }
 
