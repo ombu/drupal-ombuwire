@@ -189,23 +189,32 @@ function ombuwire_delivery_callback($page_callback_result) {
 
     $sitemap_item = FALSE;
     $display = FALSE;
+    $root_path = FALSE;
 
     if ($page_callback_result === MENU_NOT_FOUND && !array_key_exists($requested_path, $sitemap_flat)) {
       $path_parts = explode('/', $requested_path);
       $root_path = implode('/', array_slice($path_parts, 0, -1));
       $display = end($path_parts);
-      $sitemap_item = $sitemap_flat[$root_path];
+      if (isset($sitemap_flat[$root_path])) {
+        $sitemap_item = $sitemap_flat[$root_path];
+      }
     }
     elseif ($page_callback_result === MENU_NOT_FOUND && array_key_exists($requested_path, $sitemap_flat)) {
       // Display is 'root' and Drupal callback doesn't exist
       $display = 'root';
+      $root_path = $requested_path;
       $sitemap_item = $sitemap_flat[$requested_path];
       drupal_set_message("<p><em>This page has not yet been implemented.</em></p>", 'warning');
     }
     else {
       // Display is 'root' and Drupal callback exists
       $display = 'root';
+      $root_path = $requested_path;
       $sitemap_item = $sitemap_flat[$requested_path];
+    }
+
+    if ($root_path) {
+      ombuwire_active_root_path($root_path);
     }
 
     if ($sitemap_item) {
@@ -227,3 +236,12 @@ function ombuwire_delivery_callback($page_callback_result) {
   $delivery_callback($page_callback_result);
 }
 
+function ombuwire_active_root_path($path = FALSE) {
+  static $internal = NULL;
+
+  if ($path != FALSE) {
+    $internal = $path;
+  }
+
+  return $internal;
+}

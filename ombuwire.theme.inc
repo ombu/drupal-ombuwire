@@ -24,26 +24,30 @@ function theme_ombuwire_sidebar($vars) {
 
 function _ombuwire_sidebar_menu($tree) {
   $items = array();
+  $active_path = drupal_get_path_alias(current_path());
+  $active_root_path = ombuwire_active_root_path();
   foreach ($tree as $url => $arr) {
 
     // Main link
-    $item = l($arr['#title'], $url);
+    $item = '<div class="root '.$arr['#status'].'">'. l($arr['#title'], $url) .'</div>';
 
     // wireframe, design, static links
-    $variations = array();
+    $displays = array();
     foreach ($arr as $key => $val) {
       if (stristr($key, '#') === FALSE) {
-        $variations[] = l(ucwords($key), $url.'/'.$key);
+        $displays[] = l(ucwords($key), $url.'/'.$key);
       }
     }
-    $item .= '<div class="small">'. implode(' - ', $variations) .'</div>';
+    $item .= '<div class="displays">&nbsp;&lfloor; '. implode(' &middot; ', $displays) .'</div>';
 
     // children
     if (!empty($arr['#children'])) {
       $item .= _ombuwire_sidebar_menu($arr['#children']);
     }
 
-    $items[] = '<li class="'.$arr['#status'].'">'. $item .'</li>';
+    $class = ($url === $active_root_path) ? 'active' : '';
+
+    $items[] = '<li class="'. $class .'">'. $item .'</li>';
   }
 
   return '<ul>'. implode($items) .'</ul>';

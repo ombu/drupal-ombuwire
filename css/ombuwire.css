@@ -34,16 +34,15 @@ body.ombuwire #ombuwire-sidebar {
   font-family: Arial, Helmet, Freesans, sans-serif;
 }
 body.ombuwire #ombuwire-sidebar a {
-  text-decoration: underline;
   color: #FFFFFF;
 }
-body.ombuwire #ombuwire-sidebar .small {
+body.ombuwire #ombuwire-sidebar .displays {
   font-size: 10px;
 }
-body.ombuwire #ombuwire-sidebar .small a {
+body.ombuwire #ombuwire-sidebar .displays a {
   text-decoration: none;
 }
-body.ombuwire #ombuwire-sidebar .small a:hover {
+body.ombuwire #ombuwire-sidebar .displays a:hover {
   text-decoration: underline;
 }
 body.ombuwire #ombuwire-sidebar ul {
@@ -52,6 +51,24 @@ body.ombuwire #ombuwire-sidebar ul {
 }
 body.ombuwire #ombuwire-sidebar ul ul {
   margin-left: 1em;
+}
+body.ombuwire #ombuwire-sidebar ul > li > .displays {
+  line-height: 2em;
+  height: 0px;
+  overflow: hidden;
+  -webkit-transition: height 0.2s ease-in;
+  -moz-transition: height 0.2s ease-in;
+  -o-transition: height 0.2s ease-in;
+  transition: height 0.2s ease-in;
+}
+body.ombuwire #ombuwire-sidebar ul > li > .displays a.active {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+}
+body.ombuwire #ombuwire-sidebar ul > li:hover > .displays, body.ombuwire #ombuwire-sidebar ul > li.active > .displays {
+  height: 2em;
+}
+body.ombuwire #ombuwire-sidebar ul > li.active > .root {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
 }
 body.ombuwire.ombuwire-root {
   top: 30px;
