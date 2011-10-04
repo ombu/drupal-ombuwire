@@ -1,7 +1,13 @@
 <?php
+
+/**
+ * @file
+ * Hooks provided by ombuwire.
+ */
+
 /****
- * STATUS CODES
- * -------------
+ * AVAILABLE STATUS CODES
+ * ----------------------
  *
  * OMBUWIRE_NOT_STARTED
  * OMBUWIRE_WIREFRAME
@@ -11,8 +17,7 @@
  * OMBUWIRE_IMPLEMENTED
  */
 
-/*
-function _ombuwire_sitemap() {
+function hook_ombuwire_sitemap() {
 
   $sitemap = array(
     'about' => array(
@@ -45,4 +50,3 @@ function _ombuwire_sitemap() {
 
   return $sitemap;
 }
-*/
