@@ -29,7 +29,7 @@ function _ombuwire_sidebar_menu($tree) {
   foreach ($tree as $url => $arr) {
 
     // Main link
-    $item = '<div class="root '.$arr['#status'].'">'. l($arr['#title'], $url) .'</div>';
+    $item = '<div class="root">'. l($arr['#title'], $url) .'</div>';
 
     // wireframe, design, static links
     $displays = array();
@@ -38,7 +38,9 @@ function _ombuwire_sidebar_menu($tree) {
         $displays[] = l(ucwords($key), $url.'/'.$key);
       }
     }
-    $item .= '<div class="displays">&nbsp;&lfloor; '. implode(' &middot; ', $displays) .'</div>';
+    if (!empty($displays)) {
+      $item .= '<div class="displays">&nbsp;&lfloor; '. implode(' &middot; ', $displays) .'</div>';
+    }
 
     // children
     if (!empty($arr['#children'])) {
@@ -46,7 +48,7 @@ function _ombuwire_sidebar_menu($tree) {
     }
 
     $class = ($url === $active_root_path) ? 'active' : '';
-
+    $class .= ' '. $arr['#status'];
     $items[] = '<li class="'. $class .'">'. $item .'</li>';
   }
 

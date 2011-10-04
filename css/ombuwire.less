@@ -61,6 +61,17 @@ body.ombuwire {
       }
 
       > li {
+
+        padding-left: 20px;
+        margin: 2px 0;
+        background: url(img/issues.png) no-repeat 0 1px transparent;
+        &.in-progress { background-image: url(img/working-on.png); }
+        &.implemented { background-image: url(img/done.png); }
+
+        > .root {
+          padding: 1px 3px;
+        }
+
         > .displays {
           line-height: 2em;
           height: 0px;

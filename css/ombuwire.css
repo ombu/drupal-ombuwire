@@ -52,6 +52,20 @@ body.ombuwire #ombuwire-sidebar ul {
 body.ombuwire #ombuwire-sidebar ul ul {
   margin-left: 1em;
 }
+body.ombuwire #ombuwire-sidebar ul > li {
+  padding-left: 20px;
+  margin: 2px 0;
+  background: url(img/issues.png) no-repeat 0 1px transparent;
+}
+body.ombuwire #ombuwire-sidebar ul > li.in-progress {
+  background-image: url(img/working-on.png);
+}
+body.ombuwire #ombuwire-sidebar ul > li.implemented {
+  background-image: url(img/done.png);
+}
+body.ombuwire #ombuwire-sidebar ul > li > .root {
+  padding: 1px 3px;
+}
 body.ombuwire #ombuwire-sidebar ul > li > .displays {
   line-height: 2em;
   height: 0px;
