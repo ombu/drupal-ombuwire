@@ -111,8 +111,10 @@ function ombuwire_preprocess_page(&$variables) {
       $variables['theme_hook_suggestions'][] = 'page__ombuwire';
     }
   }
-  $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
-  dfb($variables['page']);
+  global $theme;
+  if ($theme != variable_get('admin_theme', 'ombuadmin')) {
+    $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
+  }
 }
 
 /**
