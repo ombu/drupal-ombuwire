@@ -92,13 +92,31 @@ function ombuwire_preprocess_html(&$variables) {
       $variables['classes_array'][] = 'ombuwire-'. $obj['#display'];
       if ($obj['#display'] != 'root') {
         $variables['theme_hook_suggestions'][] = 'html__ombuwire';
-        $module_path = base_path() . drupal_get_path('module', 'ombuwire');
-        $variables['styles'] = '<link rel="stylesheet" type="text/css" href="$module_path/css/ombuwire.css" />';
         unset($variables['page']['page_top']['#theme_wrappers']);
         unset($variables['page']['page_bottom']['#theme_wrappers']);
       }
     }
   }
+}
+
+/**
+ * Implements hook_library().
+ */
+function ombuwire_library() {
+  $libraries['ombuwire'] = array(
+    'title' => 'OMBU Wire Menu',
+    'version' => '0.1',
+    'js' => array(
+      drupal_get_path('module', 'ombuwire') . '/js/ombuwire.js' => array(),
+    ),
+    'css' => array(
+      drupal_get_path('module', 'ombuwire') . '/css/ombuwire.css' => array(),
+    ),
+    'dependencies' => array(
+      array('system', 'jquery.cookie'),
+    ),
+  );
+  return $libraries;
 }
 
 /**

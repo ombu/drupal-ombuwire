@@ -32,24 +32,14 @@ body.ombuwire {
 #ombuwire-sidebar {
   position: absolute;
   top: 2em;
-  left: -1px;
   z-index: 100;
 
   color: #ffffff;
   font-size: 13px;
   font-family: Arial,Helmet,Freesans,sans-serif;
 
-  &:hover {
-    .opener { display: none; }
-    .cloak {
-      display: block;
-      width: auto;
-    }
-  }
-
   .cloak {
-    overflow: hidden;
-    width: 1px;
+    display: none;
   }
 
   .opener {
@@ -61,6 +51,18 @@ body.ombuwire {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
     font-size: 20px;
     text-align: center;
+    text-decoration: none;
+  }
+
+  .closer {
+    display: block;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 23px;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
   }
 
   a {

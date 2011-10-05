@@ -22,13 +22,15 @@ function theme_ombuwire_page_static($vars) {
 }
 
 function theme_ombuwire_sidebar($vars) {
+  drupal_add_library('ombuwire', 'ombuwire');
   $tree = ombuwire_get_sitemap();
   $menu = _ombuwire_sidebar_menu($tree);
 	return <<<HEREDOC
 <div id="ombuwire-sidebar">
-  <a href="#" class="opener" title="Wireframe/Design Menu">&equiv;</a>
+  <a href="#" class="opener" title="Open Wireframe/Design Menu">&equiv;</a>
   <div class="cloak">
     <div class="ombuwire-menu">
+      <a href="#" class="closer" title="Close Wireframe/Design Menu">&otimes;</a>
       $menu
     </div>
   </div>
