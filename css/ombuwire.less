@@ -103,11 +103,24 @@ body.ombuwire {
 
       > li {
 
+        position: relative;
         padding-left: 20px;
         margin: 2px 0;
-        background: url(img/issues.png) no-repeat 0 1px transparent;
-        &.in-progress { background-image: url(img/working-on.png); }
-        &.implemented { background-image: url(img/done.png); }
+
+
+        > .icon {
+          display: block;
+          width: 16px;
+          height: 16px;
+          position: absolute;
+          left: 0;
+          top: 1px;
+          background: url(img/issues.png) no-repeat 0 0 transparent;
+          cursor: default;
+
+          &.in-progress { background-image: url(img/working-on.png); }
+          &.implemented { background-image: url(img/done.png); }
+        }
 
         > .root {
           padding: 1px 3px;

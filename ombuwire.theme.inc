@@ -64,9 +64,14 @@ function _ombuwire_sidebar_menu($tree) {
     }
 
     $class = ($url === $active_root_path) ? 'active' : '';
-    $class .= ' '. $arr['#status'];
-    $items[] = '<li class="'. $class .'">'. $item .'</li>';
+    $icon = _ombuwire_sidebar_menu_icon($arr['#status']);
+    $items[] = '<li class="'. $class .'">'. $icon . $item .'</li>';
   }
 
   return '<ul>'. implode($items) .'</ul>';
+}
+
+function _ombuwire_sidebar_menu_icon($status) {
+  $human_name = ucwords(str_replace('-', ' ', $status));
+  return "<a class='icon icon-$status noclick' title='$human_name' href='#'></a>";
 }

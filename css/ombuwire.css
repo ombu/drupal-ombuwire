@@ -87,14 +87,24 @@ body.ombuwire .ombuwire-center {
   margin-left: 1em;
 }
 #ombuwire-sidebar .ombuwire-menu ul > li {
+  position: relative;
   padding-left: 20px;
   margin: 2px 0;
-  background: url(img/issues.png) no-repeat 0 1px transparent;
 }
-#ombuwire-sidebar .ombuwire-menu ul > li.in-progress {
+#ombuwire-sidebar .ombuwire-menu ul > li > .icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 0;
+  top: 1px;
+  background: url(img/issues.png) no-repeat 0 0 transparent;
+  cursor: default;
+}
+#ombuwire-sidebar .ombuwire-menu ul > li > .icon.in-progress {
   background-image: url(img/working-on.png);
 }
-#ombuwire-sidebar .ombuwire-menu ul > li.implemented {
+#ombuwire-sidebar .ombuwire-menu ul > li > .icon.implemented {
   background-image: url(img/done.png);
 }
 #ombuwire-sidebar .ombuwire-menu ul > li > .root {

@@ -55,6 +55,12 @@ $(function() {
 
 
   $sidebar.addClass('processed');
+
+
+  $('a.noclick').click(function(e) {
+    e.preventDefault();
+    return false;
+  });
 });
 
 })(jQuery);
