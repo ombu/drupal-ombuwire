@@ -144,12 +144,14 @@ function _ombuwire_blocks_needed() {
  * Return the sitemap array
  */
 function ombuwire_get_sitemap() {
+  static $warned = FALSE;
   $sitemap = module_invoke_all('ombuwire_sitemap');
-  if (empty($sitemap)) {
+  if (empty($sitemap) && !$warned) {
     $message = "No ombuwire sitemap found. ";
     $message .= "An example of the `hook_ombuwire_sitemap()` function can be found at '". drupal_get_path('module', 'ombuwire');
     $message .= "/ombuwire.api.php'.";
     drupal_set_message($message, 'warning');
+    $warned = TRUE;
   }
   return $sitemap;
 }
