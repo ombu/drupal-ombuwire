@@ -118,6 +118,14 @@ function ombuwire_preprocess_page(&$variables) {
 }
 
 /**
+ * Implementes hook_preprocess_region()
+ */
+function ombuwire_preprocess_region(&$variables) {
+  $human_name = ucwords(str_replace('_', ' ', $variables['region']));
+  $variables['content'] .= "<label class='region-label'>$human_name</label>";
+}
+
+/**
  * Implements hook_library().
  */
 function ombuwire_library() {

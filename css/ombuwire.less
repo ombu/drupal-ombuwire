@@ -1,9 +1,15 @@
+/****
+ * FPO Blocks
+ */
 .block-ombuwire-fpo {
   h2 { display: none; }
   .fpo { background-color: lighten(#000, 70%); }
 }
 
 
+/****
+ * OMBUWIRE display settings
+ */
 body.ombuwire {
   &.ombuwire-static {
     margin: 0;
@@ -24,13 +30,14 @@ body.ombuwire {
     margin: 0 auto;
   }
 
-  &.ombuwire-root {
-    top: 30px;
-  }
 }
 
+
+/****
+ * Sidebar Menu
+ */
 #ombuwire-sidebar {
-  position: absolute;
+  position: fixed;
   top: 2em;
   z-index: 100;
 
@@ -131,5 +138,31 @@ body.ombuwire {
         }
       }
     }
+  }
+}
+
+
+/****
+ * Region Labels
+ */
+.region {
+
+  @borderWidth: 1px;
+  border: @borderWidth solid green;
+  position: relative;
+
+  label.region-label {
+    @padding: 2px;
+    @fontLineHeight: 11px;
+    display: block;
+    background: green;
+    font-size: @fontLineHeight;
+    line-height: @fontLineHeight;
+    font-family: Arial,Helmet,Freesans,sans-serif;
+    color: #FFF;
+    padding: @padding;
+    position: absolute;
+    top: -(@fontLineHeight + (@padding*2));
+    right: -@borderWidth;
   }
 }
