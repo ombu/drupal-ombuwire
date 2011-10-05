@@ -85,7 +85,8 @@ function ombuwire_preprocess_block(&$variables) {
  * Implements hook_preprocess_html()
  */
 function ombuwire_preprocess_html(&$variables) {
-  if (array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
+  if (is_array($variables['page']['content']['system_main']) &&
+        array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
     $obj = $variables['page']['content']['system_main']['#ombuwire'];
     $variables['classes_array'][] = 'ombuwire';
     if (isset($obj['#display'])) {
@@ -97,6 +98,21 @@ function ombuwire_preprocess_html(&$variables) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_page()
+ */
+function ombuwire_preprocess_page(&$variables) {
+  if (is_array($variables['page']['content']['system_main']) &&
+        array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
+    $obj = $variables['page']['content']['system_main']['#ombuwire'];
+    if (isset($obj['#display']) && $obj['#display'] != 'root') {
+      $variables['theme_hook_suggestions'][] = 'page__ombuwire';
+    }
+  }
+  $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
+  dfb($variables['page']);
 }
 
 /**
@@ -117,19 +133,6 @@ function ombuwire_library() {
     ),
   );
   return $libraries;
-}
-
-/**
- * Implements hook_preprocess_page()
- */
-function ombuwire_preprocess_page(&$variables) {
-  if (array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
-    $obj = $variables['page']['content']['system_main']['#ombuwire'];
-    if (isset($obj['#display']) && $obj['#display'] != 'root') {
-      $variables['theme_hook_suggestions'][] = 'page__ombuwire';
-    }
-  }
-  $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
 }
 
 /**
