@@ -222,26 +222,33 @@ function ombuwire_delivery_callback($page_callback_result) {
   $requested_path = drupal_get_path_alias(current_path());
   $sitemap_flat = ombuwire_get_sitemap_flat();
 
-  if ($page_callback_result === MENU_NOT_FOUND || array_key_exists($requested_path, $sitemap_flat)) {
+  if ($page_callback_result === MENU_NOT_FOUND ||
+      array_key_exists($requested_path, $sitemap_flat) ||
+      (drupal_is_front_page() && array_key_exists('<front>', $sitemap_flat))) {
 
     $sitemap_item = FALSE;
     $display = FALSE;
     $root_path = FALSE;
 
+    // non-drupal display path
     if ($page_callback_result === MENU_NOT_FOUND && !array_key_exists($requested_path, $sitemap_flat)) {
       $path_parts = explode('/', $requested_path);
       $root_path = implode('/', array_slice($path_parts, 0, -1));
       $display = end($path_parts);
+      if (empty($root_path)) {
+        $root_path = '<front>';
+      }
       if (isset($sitemap_flat[$root_path])) {
         $sitemap_item = $sitemap_flat[$root_path];
       }
     }
+    // display is 'root'
     elseif (array_key_exists($requested_path, $sitemap_flat)) {
-      // Display is 'root' and Drupal callback doesn't exist
       $display = 'root';
       $root_path = $requested_path;
       $sitemap_item = $sitemap_flat[$requested_path];
 
+      // Add messaging if Drupal callback doesn't exist
       if ($page_callback_result === MENU_NOT_FOUND) {
         $display_links = array();
         foreach ($sitemap_item as $key => $val) {

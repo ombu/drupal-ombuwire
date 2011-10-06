@@ -56,7 +56,13 @@ function _ombuwire_sidebar_menu($tree) {
     $displays = array();
     foreach ($arr as $key => $val) {
       if (stristr($key, '#') === FALSE) {
-        $displays[] = l(ucwords($key), $url.'/'.$key);
+        if ($url === '<front>') {
+          $display_url = $key;
+        }
+        else {
+          $display_url = $url.'/'.$key;
+        }
+        $displays[] = l(ucwords($key), $display_url);
       }
     }
     if (!empty($displays)) {
