@@ -1,4 +1,6 @@
-/****
+@radius: 3px;
+@font-family: Lucida Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+/***x*
  * FPO Blocks
  */
 .block-ombuwire-fpo {
@@ -38,18 +40,19 @@ body.ombuwire {
  */
 #ombuwire-sidebar {
   position: fixed;
-  top: 2em;
+  top: 0;
   z-index: 100;
 
   color: #ffffff;
-  font-size: 13px;
-  font-family: Arial,Helmet,Freesans,sans-serif;
+  font-size: 12px;
+  font-family: @font-family;
 
   .cloak {
     display: none;
   }
 
   .opener {
+    .border-radius-right(@radius);
     display: block;
     position: absolute;
     top: 0;
@@ -74,13 +77,19 @@ body.ombuwire {
 
   a {
     color: #FFFFFF;
+
+    &:hover {
+        text-decoration:none;
+    }
+
   }
 
   .ombuwire-menu {
+    .border-radius(@radius);
     padding: 1em;
     border: 3px solid rgba(255, 255, 255, 0.3);
     border-left: 0;
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+    background: none repeat scroll 0 0 rgba(30, 30, 30, 0.95);
 
     .displays {
       font-size: 10px;
@@ -134,9 +143,6 @@ body.ombuwire {
           -o-transition: height 0.2s ease-in;
           transition: height 0.2s ease-in;
 
-          a.active {
-            background: #000;
-          }
         }
 
         &:hover,
@@ -145,8 +151,16 @@ body.ombuwire {
             height: 2em;
           }
         }
-        &.active > .root {
-          background: #000;
+        h3 {
+          background-color: rgba(255, 255, 255, 0.4);
+          color: lighten(#000, 15%);
+          text-transform: uppercase;
+          margin: 1em 0 0.5em;
+          padding: 0 7px;
+          .border-radius(@radius);
+        }
+        a.active {
+          text-decoration: underline;
         }
       }
     }
@@ -170,11 +184,35 @@ body.ombuwire {
     background: green;
     font-size: @fontLineHeight;
     line-height: @fontLineHeight;
-    font-family: Arial,Helmet,Freesans,sans-serif;
+    font-family: @font-family;
     color: #FFF;
     padding: @padding;
     position: absolute;
     top: -(@fontLineHeight + (@padding*2));
     right: -@borderWidth;
   }
+}
+
+/**
+ * Mixins
+ */
+.border-radius(@radius: 10px) {
+    -webkit-background-clip: padding-box;
+    -webkit-border-radius: @radius;
+    -moz-background-clip: padding-box;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+    background-clip: padding-box;
+}
+
+.border-radius-right(@radius: 10px) {
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+    -webkit-border-top-right-radius: @radius;
+    -webkit-border-bottom-rightradius: @radius;
+    -moz-border-top-right-radius: @radius;
+    -moz-border-bottom-right-radius: @radius;
+    border-top-right-radius: @radius;
+    border-bottom-right-radius: @radius;
 }
