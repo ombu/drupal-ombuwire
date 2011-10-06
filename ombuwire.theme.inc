@@ -44,10 +44,8 @@ function _ombuwire_sidebar_menu($tree) {
   $active_root_path = ombuwire_active_root_path();
   foreach ($tree as $url => $arr) {
 
-    if (strpos($url, '#') === 0) {
-      if ($url === '#markup') {
-        $items[] = '<li>'. $arr .'</li>';
-      }
+    if (array_key_exists('#markup', $arr)) {
+      $items[] = '<li>'. $arr['#markup'] .'</li>';
       continue;
     }
 

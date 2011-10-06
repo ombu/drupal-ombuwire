@@ -195,8 +195,8 @@ function ombuwire_get_sitemap_flat($map = NULL) {
   $paths = array();
   foreach ($map as $path => $array) {
 
-    if (strpos($path, '#') === 0) {
-      // Skip items with # at the beginning of the path, like '#markup'
+    if (is_numeric($path)) {
+      // Skip items without a url key
       continue;
     }
 
