@@ -98,10 +98,10 @@ body.ombuwire .ombuwire-center {
   background: url(img/issues.png) no-repeat 0 0 transparent;
   cursor: default;
 }
-#ombuwire-sidebar .ombuwire-menu ul > li > .icon.in-progress {
+#ombuwire-sidebar .ombuwire-menu ul > li > .icon.icon-in-progress {
   background-image: url(img/working-on.png);
 }
-#ombuwire-sidebar .ombuwire-menu ul > li > .icon.implemented {
+#ombuwire-sidebar .ombuwire-menu ul > li > .icon.icon-implemented {
   background-image: url(img/done.png);
 }
 #ombuwire-sidebar .ombuwire-menu ul > li > .root {
