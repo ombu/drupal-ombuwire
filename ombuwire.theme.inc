@@ -44,6 +44,13 @@ function _ombuwire_sidebar_menu($tree) {
   $active_root_path = ombuwire_active_root_path();
   foreach ($tree as $url => $arr) {
 
+    if (strpos($url, '#') === 0) {
+      if ($url === '#markup') {
+        $items[] = '<li>'. $arr .'</li>';
+      }
+      continue;
+    }
+
     // Main link
     $item = '<div class="root">'. l($arr['#title'], $url) .'</div>';
 
@@ -65,7 +72,7 @@ function _ombuwire_sidebar_menu($tree) {
 
     $class = ($url === $active_root_path) ? 'active' : '';
     $icon = _ombuwire_sidebar_menu_icon($arr['#status']);
-    $items[] = '<li class="'. $class .'">'. $icon . $item .'</li>';
+    $items[] = '<li class="'. $class .' has-icon">'. $icon . $item .'</li>';
   }
 
   return '<ul>'. implode($items) .'</ul>';

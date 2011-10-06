@@ -84,9 +84,11 @@ body.ombuwire .ombuwire-center {
   margin: 0;
 }
 #ombuwire-sidebar .ombuwire-menu ul > li {
+  margin: 2px 0;
+}
+#ombuwire-sidebar .ombuwire-menu ul > li.has-icon {
   position: relative;
   padding-left: 18px;
-  margin: 2px 0;
 }
 #ombuwire-sidebar .ombuwire-menu ul > li > .icon {
   display: block;

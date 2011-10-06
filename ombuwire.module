@@ -194,6 +194,12 @@ function ombuwire_get_sitemap_flat($map = NULL) {
   $map = ($map === NULL) ? ombuwire_get_sitemap() : $map;
   $paths = array();
   foreach ($map as $path => $array) {
+
+    if (strpos($path, '#') === 0) {
+      // Skip items with # at the beginning of the path, like '#markup'
+      continue;
+    }
+
     $children = array();
     if (!empty($array['#children'])) {
       $children = ombuwire_get_sitemap_flat($array['#children']);
