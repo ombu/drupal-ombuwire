@@ -52,7 +52,7 @@ body.ombuwire {
   }
 
   .opener {
-    .border-radius-right(@radius);
+    .border-radius(0 0 @radius 0);
     display: block;
     position: absolute;
     top: 0;
@@ -68,9 +68,10 @@ body.ombuwire {
     display: block;
     position: absolute;
     top: 2px;
-    right: 2px;
+    right: 6px;
     width: 23px;
     font-size: 20px;
+    line-height: 1em;
     text-align: center;
     text-decoration: none;
   }
@@ -85,10 +86,11 @@ body.ombuwire {
   }
 
   .ombuwire-menu {
-    .border-radius(@radius);
-    padding: 1em;
+    .border-radius(0 0 @radius 0);
+    padding: 20px 1em 1em;
     border: 3px solid rgba(255, 255, 255, 0.3);
     border-left: 0;
+    border-top: 0;
     background: none repeat scroll 0 0 rgba(30, 30, 30, 0.95);
 
     .displays {
@@ -203,16 +205,4 @@ body.ombuwire {
     -moz-border-radius: @radius;
     border-radius: @radius;
     background-clip: padding-box;
-}
-
-.border-radius-right(@radius: 10px) {
-    -webkit-background-clip: padding-box;
-    -moz-background-clip: padding-box;
-    background-clip: padding-box;
-    -webkit-border-top-right-radius: @radius;
-    -webkit-border-bottom-rightradius: @radius;
-    -moz-border-top-right-radius: @radius;
-    -moz-border-bottom-right-radius: @radius;
-    border-top-right-radius: @radius;
-    border-bottom-right-radius: @radius;
 }
