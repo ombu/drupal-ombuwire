@@ -52,11 +52,18 @@ function ombuwire_theme_registry_alter(&$theme_registry) {
  * Implements hook_block_info().
  */
 function ombuwire_block_info() {
+  $blocks = array();
   foreach(_ombuwire_blocks_needed() as $size) {
-    $delta = sprintf('fpo_%d_%d', $size[0], $size[1]);
+    $i = 1;
+    $delta = sprintf('fpo_%d_%d_%d', $size[0], $size[1], $i);
+    while(array_key_exists($delta, $blocks)) {
+      $i++;
+      $delta = sprintf('fpo_%d_%d_%d', $size[0], $size[1], $i);
+    }
     $info = sprintf('FPO %dx%d', $size[0], $size[1]);
     $blocks[$delta]['info'] = $info;
     $blocks[$delta]['cache'] = DRUPAL_NO_CACHE;
+    $blocks[$delta]['title'] = $info;
   }
   return $blocks;
 }
@@ -65,7 +72,7 @@ function ombuwire_block_info() {
  * Implements hook_block_view().
  */
 function ombuwire_block_view($delta = '') {
-  if(preg_match('/^fpo_(\d+)_(\d+)$/', $delta, $matches)) {
+  if(preg_match('/^fpo_(\d+)_(\d+)_/', $delta, $matches)) {
     $block['subject'] = t('FPO');
     $block['content'] = _ombuwire_get_fpo_block($matches[1], $matches[2]);
     return $block;
@@ -166,8 +173,10 @@ function _ombuwire_get_fpo_block($width = 100, $height = 100)  {
  */
 function _ombuwire_blocks_needed() {
   return array(
-    array(250,250),
-    array(500,500),
+    array(460,260),
+    array(223,305),
+    array(223,305),
+    array(223,305),
   );
 }
 

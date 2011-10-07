@@ -1,11 +1,22 @@
 /***x*
  * FPO Blocks
  */
+.block-ombuwire-fpo {
+  display: inline-block;
+  position: relative;
+}
 .block-ombuwire-fpo h2 {
-  display: none;
+  text-align: center;
+  font-size: 130%;
+  color: #8c8c8c;
+  text-shadow: 0px 1px 1px #cccccc;
+  position: absolute;
+  top: 10%;
+  width: 100%;
 }
 .block-ombuwire-fpo .fpo {
   background-color: #b3b3b3;
+  outline: 3px solid #808080;
 }
 /****
  * OMBUWIRE display settings
