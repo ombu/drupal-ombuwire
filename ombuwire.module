@@ -53,7 +53,7 @@ function ombuwire_theme_registry_alter(&$theme_registry) {
  */
 function ombuwire_block_info() {
   $blocks = array();
-  foreach(_ombuwire_blocks_needed() as $size) {
+  foreach(_ombuwire_get_fpo_blocks() as $size) {
     $i = 1;
     $delta = sprintf('fpo_%d_%d_%d', $size[0], $size[1], $i);
     while(array_key_exists($delta, $blocks)) {
@@ -169,15 +169,11 @@ function _ombuwire_get_fpo_block($width = 100, $height = 100)  {
 }
 
 /**
- * @todo Should be a site variable or hook
+ * Collect FPO blocks declared via hook_ombuwire_fpo_blocks
+ * @return array
  */
-function _ombuwire_blocks_needed() {
-  return array(
-    array(460,260),
-    array(223,305),
-    array(223,305),
-    array(223,305),
-  );
+function _ombuwire_get_fpo_blocks() {
+  return module_invoke_all('ombuwire_fpo_blocks');
 }
 
 /**
