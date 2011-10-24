@@ -50,7 +50,12 @@ function _ombuwire_sidebar_menu($tree) {
     }
 
     // Main link
-    $item = '<div class="root">'. l($arr['#title'], $url) .'</div>';
+    $options = array(
+      'attributes' => array(
+        'class' => ($url === $active_path) ? 'active' : '',
+      )
+    );
+    $item = '<div class="root">'. l($arr['#title'], $url, $options) .'</div>';
 
     // wireframe, design, static links
     $displays = array();
@@ -74,7 +79,13 @@ function _ombuwire_sidebar_menu($tree) {
       $item .= _ombuwire_sidebar_menu($arr['#children']);
     }
 
-    $class = ($url === $active_root_path) ? 'active' : '';
+    $class = '';
+    if (!$active_root_path && $url === '<front>') {
+      $class = 'active';
+    }
+    elseif ($url === $active_root_path) {
+      $class = 'active';
+    }
     $icon = _ombuwire_sidebar_menu_icon($arr['#status']);
     $items[] = '<li class="'. $class .' has-icon">'. $icon . $item .'</li>';
   }
