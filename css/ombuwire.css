@@ -48,6 +48,52 @@ body.ombuwire .ombuwire-center {
   font-size: 12px;
   font-family: Lucida Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+#ombuwire-sidebar div,
+#ombuwire-sidebar span,
+#ombuwire-sidebar iframe,
+#ombuwire-sidebar h1,
+#ombuwire-sidebar h2,
+#ombuwire-sidebar h3,
+#ombuwire-sidebar h4,
+#ombuwire-sidebar h5,
+#ombuwire-sidebar h6,
+#ombuwire-sidebar p,
+#ombuwire-sidebar blockquote,
+#ombuwire-sidebar pre,
+#ombuwire-sidebar a,
+#ombuwire-sidebar em,
+#ombuwire-sidebar img,
+#ombuwire-sidebar b,
+#ombuwire-sidebar u,
+#ombuwire-sidebar i,
+#ombuwire-sidebar center,
+#ombuwire-sidebar dl,
+#ombuwire-sidebar dt,
+#ombuwire-sidebar dd,
+#ombuwire-sidebar ol,
+#ombuwire-sidebar ul,
+#ombuwire-sidebar li,
+#ombuwire-sidebar label {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  line-height: 1.4em;
+}
+#ombuwire-sidebar ol, #ombuwire-sidebar ul {
+  list-style: none;
+}
+#ombuwire-sidebar h1,
+#ombuwire-sidebar h2,
+#ombuwire-sidebar h3,
+#ombuwire-sidebar h4,
+#ombuwire-sidebar h5,
+#ombuwire-sidebar h6 {
+  font-weight: bold;
+  line-height: 1.5em;
+}
 #ombuwire-sidebar .cloak {
   display: none;
 }
@@ -81,9 +127,10 @@ body.ombuwire .ombuwire-center {
 }
 #ombuwire-sidebar a {
   color: #FFFFFF;
+  text-decoration: none;
 }
 #ombuwire-sidebar a:hover {
-  text-decoration: none;
+  text-decoration: underline;
 }
 #ombuwire-sidebar .ombuwire-menu {
   -webkit-background-clip: padding-box;

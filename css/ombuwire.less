@@ -48,10 +48,35 @@ body.ombuwire {
 }
 
 
+#reset() {
+  div, span, iframe,
+  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+  a, em, img, b, u, i, center,
+  dl, dt, dd, ol, ul, li, label {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    line-height: 1.4em;
+  }
+  ol, ul {
+    list-style: none;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    line-height: 1.5em;
+  }
+}
+
 /****
  * Sidebar Menu
  */
 #ombuwire-sidebar {
+
+  #reset();
+
   position: fixed;
   top: 0;
   z-index: 100;
@@ -91,9 +116,10 @@ body.ombuwire {
 
   a {
     color: #FFFFFF;
+    text-decoration: none;
 
     &:hover {
-      text-decoration:none;
+      text-decoration: underline;
     }
 
   }
