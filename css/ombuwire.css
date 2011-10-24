@@ -110,6 +110,7 @@ body.ombuwire .ombuwire-center {
 #ombuwire-sidebar .ombuwire-menu ul {
   list-style: none;
   margin: 0;
+  padding: 0;
 }
 #ombuwire-sidebar .ombuwire-menu ul > li {
   margin: 2px 0;

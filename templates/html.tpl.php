@@ -47,7 +47,7 @@
 <head profile="<?php print $grddl_profile; ?>">
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
-  <?php print $styles; ?>
+  <?php print $ombuwire_styles; ?>
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>

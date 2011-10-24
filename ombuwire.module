@@ -102,6 +102,9 @@ function ombuwire_preprocess_html(&$variables) {
         $variables['theme_hook_suggestions'][] = 'html__ombuwire';
         unset($variables['page']['page_top']['#theme_wrappers']);
         unset($variables['page']['page_bottom']['#theme_wrappers']);
+        $style_path = base_path() . drupal_get_path('module', 'ombuwire') . '/css/ombuwire.css';
+        $variables['ombuwire_styles'] = '<style media="all" type="text/css">@import url("'.
+          $style_path. '");</style>';
       }
     }
   }
@@ -116,6 +119,8 @@ function ombuwire_preprocess_page(&$variables) {
     $obj = $variables['page']['content']['system_main']['#ombuwire'];
     if (isset($obj['#display']) && $obj['#display'] != 'root') {
       $variables['theme_hook_suggestions'][] = 'page__ombuwire';
+      unset($variables['page']['content']['system_main']['#theme_wrappers']);
+      unset($variables['page']['content']['#theme_wrappers']);
     }
   }
   global $theme;
