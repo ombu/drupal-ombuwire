@@ -240,8 +240,12 @@ body.ombuwire {
     color: #FFF;
     padding: @padding;
     position: absolute;
-    top: -(@fontLineHeight + (@padding*2));
-    right: -@borderWidth;
+    top: 0;
+    right: @borderWidth;
+    @r: 3px;
+    -webkit-border-radius: 0 0 @r @r;
+    -moz-border-radius: 0 0 @r @r;
+    border-radius: 0 0 @r @r;
   }
 }
 

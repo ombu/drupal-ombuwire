@@ -240,8 +240,11 @@ body.ombuwire .ombuwire-center {
   color: #FFF;
   padding: 2px;
   position: absolute;
-  top: -15px;
-  right: -1px;
+  top: 0;
+  right: 1px;
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
 }
 /**
  * Mixins
