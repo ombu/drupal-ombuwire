@@ -97,7 +97,14 @@ body.ombuwire .ombuwire-center {
 #ombuwire-sidebar .cloak {
   display: none;
 }
-#ombuwire-sidebar .opener {
+#ombuwire-sidebar a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+#ombuwire-sidebar a:hover {
+  text-decoration: underline;
+}
+#ombuwire-sidebar a.opener {
   -webkit-background-clip: padding-box;
   -webkit-border-radius: 0 0 3px 0;
   -moz-background-clip: padding-box;
@@ -114,7 +121,7 @@ body.ombuwire .ombuwire-center {
   text-align: center;
   text-decoration: none;
 }
-#ombuwire-sidebar .closer {
+#ombuwire-sidebar a.closer {
   display: block;
   position: absolute;
   top: 2px;
@@ -124,13 +131,6 @@ body.ombuwire .ombuwire-center {
   line-height: 1em;
   text-align: center;
   text-decoration: none;
-}
-#ombuwire-sidebar a {
-  color: #FFFFFF;
-  text-decoration: none;
-}
-#ombuwire-sidebar a:hover {
-  text-decoration: underline;
 }
 #ombuwire-sidebar .ombuwire-menu {
   -webkit-background-clip: padding-box;
@@ -213,14 +213,25 @@ body.ombuwire .ombuwire-center {
 #ombuwire-sidebar .ombuwire-menu ul > li a.active {
   text-decoration: underline;
 }
+#ombuwire-sidebar .ombuwire-menu #ombuwire-regions-label {
+  display: none;
+  padding-top: 0.5em;
+  margin-top: 0.5em;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+#ombuwire-sidebar .ombuwire-menu #ombuwire-regions-label input {
+  vertical-align: inherit;
+}
 /****
  * Region Labels
  */
-.region {
-  border: 1px solid green;
-  position: relative;
+.region .region-label {
+  display: none;
 }
-.region label.region-label {
+.ombuwire-region-outlines .region {
+  border: 1px solid green;
+}
+.ombuwire-region-outlines .region label.region-label {
   display: block;
   background: green;
   font-size: 11px;

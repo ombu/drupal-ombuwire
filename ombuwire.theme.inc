@@ -32,6 +32,7 @@ function theme_ombuwire_sidebar($vars) {
     <div class="ombuwire-menu">
       <a href="#" class="closer" title="Close Wireframe/Design Menu">&otimes;</a>
       $menu
+      <label id="ombuwire-regions-label"><input type="checkbox" /> Highlight Regions</label>
     </div>
   </div>
 </div>
