@@ -53,7 +53,7 @@ function _ombuwire_sidebar_menu($tree) {
     // Main link
     $options = array(
       'attributes' => array(
-        'class' => ($url === $active_path) ? 'active' : '',
+        'class' => ($url === $active_path) ? array('active') : '',
       )
     );
     $item = '<div class="root">'. l($arr['#title'], $url, $options) .'</div>';
