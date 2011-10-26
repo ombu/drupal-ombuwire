@@ -271,7 +271,12 @@ function ombuwire_delivery_callback($page_callback_result) {
     }
 
     if ($sitemap_item) {
-      if (!is_array($page_callback_result)) {
+      if (is_string($page_callback_result)) {
+        $page_callback_result = array(
+          '#markup' => $page_callback_result,
+        );
+      }
+      elseif (!is_array($page_callback_result)) {
         $page_callback_result = array();
       }
       if (in_array($display, array_keys($sitemap_item))) {
