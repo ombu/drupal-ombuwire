@@ -221,6 +221,20 @@ body.ombuwire .ombuwire-center {
 #ombuwire-sidebar .ombuwire-menu #ombuwire-regions-label input {
   vertical-align: inherit;
 }
+#toolbar + #ombuwire-sidebar {
+  top: 30px;
+}
+#toolbar + #ombuwire-sidebar a.opener {
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-background-clip: padding-box;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
+  background-clip: padding-box;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
 /****
  * Region Labels
  */
