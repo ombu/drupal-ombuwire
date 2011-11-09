@@ -105,6 +105,14 @@ function ombuwire_preprocess_html(&$variables) {
         $style_path = base_path() . drupal_get_path('module', 'ombuwire') . '/css/ombuwire.css';
         $variables['ombuwire_styles'] = '<style media="all" type="text/css">@import url("'.
           $style_path. '");</style>';
+
+          // Remove everything but the ombuwire_sidebar
+          foreach ($variables['page']['page_bottom'] as $k => $v) {
+            if (strpos($k, '#') !== 0 && $k !== 'ombuwire_sidebar') {
+                unset($variables['page']['page_bottom'][$k]);
+            }
+          }
+
       }
     }
   }
@@ -123,9 +131,15 @@ function ombuwire_preprocess_page(&$variables) {
       unset($variables['page']['content']['#theme_wrappers']);
     }
   }
+}
+
+/**
+ * Implementes hook_page_alter()
+ */
+function ombuwire_page_alter(&$page) {
   global $theme;
   if ($theme != variable_get('admin_theme', 'ombuadmin')) {
-    $variables['page']['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
+    $page['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
   }
 }
 
