@@ -41,7 +41,7 @@ HEREDOC;
 
 function _ombuwire_sidebar_menu($tree) {
   $items = array();
-  $active_path = drupal_get_path_alias(current_path());
+  $active_path = isset($_REQUEST['q']) ? $_REQUEST['q'] : '';
   $active_root_path = ombuwire_active_root_path();
   foreach ($tree as $url => $arr) {
 
@@ -68,7 +68,9 @@ function _ombuwire_sidebar_menu($tree) {
         else {
           $display_url = $url.'/'.$key;
         }
-        $displays[] = l(ucwords($key), $display_url);
+
+        $display_class = ($display_url === $active_path) ? 'active' : '';
+        $displays[] = '<a href="'.base_path() . $display_url.'" class="'.$display_class.'">'.ucwords($key).'</a>';
       }
     }
     if (!empty($displays)) {
