@@ -65,4 +65,4 @@
  * @see template_process()
  */
 ?>
-<?php print render($page['content']); ?>
+<?php print render($page['ombuwire']); ?>

@@ -92,27 +92,31 @@ function ombuwire_preprocess_block(&$variables) {
  * Implements hook_preprocess_html()
  */
 function ombuwire_preprocess_html(&$variables) {
-  if (is_array($variables['page']['content']['system_main']) &&
-        array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
-    $obj = $variables['page']['content']['system_main']['#ombuwire'];
+  $sitemap_item = ombuwire_sitemap_item();
+  if ($sitemap_item) {
+
     $variables['classes_array'][] = 'ombuwire';
-    if (isset($obj['#display'])) {
-      $variables['classes_array'][] = 'ombuwire-'. $obj['#display'];
-      if ($obj['#display'] != 'root') {
-        $variables['theme_hook_suggestions'][] = 'html__ombuwire';
-        unset($variables['page']['page_top']['#theme_wrappers']);
-        unset($variables['page']['page_bottom']['#theme_wrappers']);
-        $style_path = base_path() . drupal_get_path('module', 'ombuwire') . '/css/ombuwire.css';
-        $variables['ombuwire_styles'] = '<style media="all" type="text/css">@import url("'.
-          $style_path. '");</style>';
+    $variables['classes_array'][] = 'ombuwire-'. $sitemap_item['#active_display'];
 
-          // Remove everything but the ombuwire_sidebar
-          foreach ($variables['page']['page_bottom'] as $k => $v) {
-            if (strpos($k, '#') !== 0 && $k !== 'ombuwire_sidebar') {
-                unset($variables['page']['page_bottom'][$k]);
-            }
-          }
+    if ($sitemap_item['#active_display'] != 'root') {
 
+      // set html template
+      $variables['theme_hook_suggestions'][] = 'html__ombuwire';
+
+      // remove region theme wrappers
+      unset($variables['page']['page_top']['#theme_wrappers']);
+      unset($variables['page']['page_bottom']['#theme_wrappers']);
+
+      // add css
+      $style_path = base_path() . drupal_get_path('module', 'ombuwire') . '/css/ombuwire.css';
+      $variables['ombuwire_styles'] = '<style media="all" type="text/css">@import url("'.
+        $style_path. '");</style>';
+
+      // Remove everything but the ombuwire_sidebar
+      foreach ($variables['page']['page_bottom'] as $k => $v) {
+        if (strpos($k, '#') !== 0 && $k !== 'ombuwire_sidebar') {
+            unset($variables['page']['page_bottom'][$k]);
+        }
       }
     }
   }
@@ -122,13 +126,22 @@ function ombuwire_preprocess_html(&$variables) {
  * Implements hook_preprocess_page()
  */
 function ombuwire_preprocess_page(&$variables) {
-  if (is_array($variables['page']['content']['system_main']) &&
-        array_key_exists('#ombuwire', $variables['page']['content']['system_main'])) {
-    $obj = $variables['page']['content']['system_main']['#ombuwire'];
-    if (isset($obj['#display']) && $obj['#display'] != 'root') {
+
+  $sitemap_item = ombuwire_sitemap_item();
+  if ($sitemap_item) {
+
+    if ($sitemap_item['#active_display'] != 'root') {
+
+      // set page template
       $variables['theme_hook_suggestions'][] = 'page__ombuwire';
-      unset($variables['page']['content']['system_main']['#theme_wrappers']);
-      unset($variables['page']['content']['#theme_wrappers']);
+
+      // set ombuwire render array for the display
+      $variables['page'] = array(
+        'ombuwire' => array(
+          '#theme' => 'ombuwire_page_'. $sitemap_item['#active_display'],
+          '#url' => $sitemap_item[$sitemap_item['#active_display']],
+        ),
+      );
     }
   }
 }
@@ -139,8 +152,8 @@ function ombuwire_preprocess_page(&$variables) {
 function ombuwire_page_alter(&$page) {
   global $theme;
   if ($theme != variable_get('admin_theme', 'ombuadmin')) {
-    if (is_array($page['content']['system_main']) &&
-          array_key_exists('#ombuwire', $page['content']['system_main'])) {
+    $sitemap_item = ombuwire_sitemap_item();
+    if ($sitemap_item) {
       $page['page_bottom']['ombuwire_sidebar'] = array('#theme' => 'ombuwire_sidebar');
     }
   }
@@ -274,25 +287,9 @@ function ombuwire_delivery_callback($page_callback_result) {
 
   if (isset($sitemap_flat[$root_path])) {
     $sitemap_item = $sitemap_flat[$root_path];
+    $sitemap_item['#active_display'] = $display;
+    ombuwire_sitemap_item($sitemap_item);
     ombuwire_active_root_path($root_path);
-
-    // Initialize the new page_callback_result
-    $ombuwire_callback_result = array(
-      '#ombuwire' => array(
-        '#display' => $display,
-      ),
-    );
-    if (is_string($page_callback_result)) {
-      $ombuwire_callback_result['#markup'] = $page_callback_result;
-    }
-
-    // Add display info if it exists in sitemap_item
-    if (array_key_exists($display, $sitemap_item)) {
-      // The display version has a key in the array. Ex: 'wireframe', 'design', etc.
-      // Otherwise it's the actual implementation
-      $ombuwire_callback_result['#theme'] = 'ombuwire_page_'. $display;
-      $ombuwire_callback_result['#url'] = $sitemap_item[$display];
-    }
 
     // Add messaging if Drupal callback doesn't exist
     if ($page_callback_result === MENU_NOT_FOUND) {
@@ -308,12 +305,10 @@ function ombuwire_delivery_callback($page_callback_result) {
       }
       drupal_set_message($message, 'warning');
     }
+  }
 
-    $delivery_callback($ombuwire_callback_result);
-  }
-  else {
-    $delivery_callback($page_callback_result);
-  }
+  $delivery_callback($page_callback_result);
+
 }
 
 function ombuwire_active_root_path($path = FALSE) {
@@ -321,6 +316,16 @@ function ombuwire_active_root_path($path = FALSE) {
 
   if ($path != FALSE) {
     $internal = $path;
+  }
+
+  return $internal;
+}
+
+function ombuwire_sitemap_item($item = FALSE) {
+  static $internal = FALSE;
+
+  if ($item != FALSE) {
+    $internal = $item;
   }
 
   return $internal;
