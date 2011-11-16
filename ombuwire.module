@@ -251,7 +251,7 @@ function ombuwire_delivery_callback($page_callback_result) {
   // get the original $delivery_callback
   $router_item = menu_get_item();
   $delivery_callback = !empty($router_item['delivery_callback']) ? $router_item['delivery_callback'] : 'drupal_deliver_html_page';
-  $requested_path = isset($_REQUEST['q']) ? $_REQUEST['q'] : '<front>';
+  $requested_path = $_SERVER['REQUEST_URI'] == '/' ? "<front>" : trim($_SERVER['REQUEST_URI'], '/');
   $sitemap_flat = ombuwire_get_sitemap_flat();
   $sitemap_item = FALSE;
   $display = FALSE;
