@@ -183,7 +183,9 @@ function ombuwire_library() {
  * Implements hook_page_delivery_callback_alter()
  */
 function ombuwire_page_delivery_callback_alter(&$delivery_callback) {
-  $delivery_callback = 'ombuwire_delivery_callback';
+  if (!path_is_admin(current_path())) {
+    $delivery_callback = 'ombuwire_delivery_callback';
+  }
 }
 
 /**
